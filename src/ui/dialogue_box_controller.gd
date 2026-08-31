@@ -4,7 +4,7 @@ extends Control
 #   on, the character-by-character text reveal with punctuation pauses, and turning the
 #   advance_dialogue input into either "reveal faster" or "go to the next node"
 # does not own: node traversal or token resolution (see DialogueRunner, TokenResolver), the
-#   document box (see F-017) or the choice list (see F-018)
+#   document box (see F-017)
 
 const CHAR_INTERVAL: float = 1.0 / 30.0
 const COMMA_PAUSE: float = 0.15
@@ -18,6 +18,9 @@ const ELLIPSIS_PAUSE: float = 0.6
 @onready var _empty_panel: Control = $EmptyPanel
 @onready var _empty_name_label: BitmapLabel = $EmptyPanel/NameLabel
 @onready var _cursor: ColorRect = $EmptyPanel/Cursor
+@onready var _option_labels: Array[BitmapLabel] = [
+	$DialoguePanel/Option0, $DialoguePanel/Option1, $DialoguePanel/Option2, $DialoguePanel/Option3,
+]
 
 var _runner: DialogueRunner
 var _active_label: BitmapLabel
@@ -25,6 +28,9 @@ var _full_text: String = ""
 var _revealed_count: int = 0
 var _reveal_timer: float = 0.0
 var _is_mute_node: bool = false
+var _choice_options: Array = []
+var _selected_index: int = 0
+var _in_choice: bool = false
 
 func _ready() -> void:
 	_dialogue_label.color = Palette.INK
@@ -38,6 +44,7 @@ func _ready() -> void:
 func attach_runner(runner: DialogueRunner) -> void:
 	_runner = runner
 	_runner.node_shown.connect(_on_node_shown)
+	_runner.choice_shown.connect(_on_choice_shown)
 
 func _on_node_shown(node_data: Dictionary) -> void:
 	match node_data.get("type", ""):
@@ -49,6 +56,10 @@ func _on_node_shown(node_data: Dictionary) -> void:
 			_show_mute_node(node_data)
 		_:
 			_hide_all_panels()
+
+## DialogueRunner emits choice nodes on their own signal rather than through node_shown.
+func _on_choice_shown(options: Array) -> void:
+	_show_choice_node(options)
 
 func _show_text_node(panel: Control, label: BitmapLabel, text: String) -> void:
 	_hide_all_panels()
@@ -74,6 +85,50 @@ func _hide_all_panels() -> void:
 	_dialogue_panel.visible = false
 	_thought_panel.visible = false
 	_empty_panel.visible = false
+	_in_choice = false
+	for label: BitmapLabel in _option_labels:
+		label.visible = false
+
+## choice options render inside the dialogue panel, in place of the normal text line, since
+## DIALOGUE_FORMAT.md treats the preceding dialogue as the prompt rather than giving choices
+## their own frame. supports up to four options; a fifth would need a new panel, not a hack.
+func _show_choice_node(options: Array) -> void:
+	_hide_all_panels()
+	_dialogue_panel.visible = true
+	_active_label = null
+	_is_mute_node = false
+	set_process(false)
+	_choice_options = options
+	if _choice_options.size() > _option_labels.size():
+		push_error("dialogue_box_controller: %d choice options exceeds the %d the ui supports" % [_choice_options.size(), _option_labels.size()])
+	_selected_index = 0
+	_in_choice = true
+	_refresh_choice_display()
+
+func _refresh_choice_display() -> void:
+	for i: int in range(_option_labels.size()):
+		var label: BitmapLabel = _option_labels[i]
+		if i < _choice_options.size():
+			var option: Dictionary = _choice_options[i]
+			label.visible = true
+			label.text = option.get("text", "")
+			label.visible_characters = -1
+			label.color = Palette.EMBER if i == _selected_index else Palette.INK
+		else:
+			label.visible = false
+
+func _move_selection(step: int) -> void:
+	if _choice_options.is_empty():
+		return
+	_selected_index = wrapi(_selected_index + step, 0, _choice_options.size())
+	_refresh_choice_display()
+
+func _confirm_choice() -> void:
+	if _runner == null or _choice_options.is_empty():
+		return
+	var chosen_index: int = _selected_index
+	_hide_all_panels()
+	_runner.choose(chosen_index)
 
 func _process(delta: float) -> void:
 	if _active_label == null or _revealed_count >= _full_text.length():
@@ -99,10 +154,14 @@ func _pause_after(revealed_count: int) -> float:
 		return CHAR_INTERVAL + PERIOD_PAUSE
 	return CHAR_INTERVAL
 
-## called on the advance_dialogue input. the empty (mute) box holds itself and does not
-## respond to input; the runner's own timer closes it. everything else: skip to full text on
-## the first press, advance to the next node on the second.
+## called on the advance_dialogue input. a choice confirms the highlighted option. the empty
+## (mute) box holds itself and does not respond to input; the runner's own timer closes it.
+## everything else: skip to full text on the first press, advance to the next node on the
+## second.
 func handle_advance_input() -> void:
+	if _in_choice:
+		_confirm_choice()
+		return
 	if _is_mute_node or _runner == null:
 		return
 	if _revealed_count < _full_text.length():
@@ -119,4 +178,10 @@ func _skip_reveal() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("advance_dialogue"):
 		handle_advance_input()
+		get_viewport().set_input_as_handled()
+	elif _in_choice and event.is_action_pressed("move_down"):
+		_move_selection(1)
+		get_viewport().set_input_as_handled()
+	elif _in_choice and event.is_action_pressed("move_up"):
+		_move_selection(-1)
 		get_viewport().set_input_as_handled()

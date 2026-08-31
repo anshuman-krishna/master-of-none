@@ -23,6 +23,22 @@ offset_bottom = 270.0
 position = Vector2(66, 23)
 script = ExtResource("2")
 
+[node name="Option0" type="Node2D" parent="DialoguePanel"]
+position = Vector2(66, 23)
+script = ExtResource("2")
+
+[node name="Option1" type="Node2D" parent="DialoguePanel"]
+position = Vector2(66, 34)
+script = ExtResource("2")
+
+[node name="Option2" type="Node2D" parent="DialoguePanel"]
+position = Vector2(66, 45)
+script = ExtResource("2")
+
+[node name="Option3" type="Node2D" parent="DialoguePanel"]
+position = Vector2(66, 56)
+script = ExtResource("2")
+
 [node name="ThoughtPanel" type="TextureRect" parent="."]
 visible = false
 texture = ExtResource("4")
