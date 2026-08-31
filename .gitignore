@@ -1,0 +1,36 @@
+# design, ideation, validation
+/testing/
+/ideation/
+/design-export/
+
+# godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+*.translation
+
+# builds
+export/
+builds/
+*.exe
+*.dmg
+*.app/
+*.pck
+*.zip
+
+# editor and os junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
+*.swp
+
+# secrets
+*.env
+.env
+steam_appid.txt
+*.key
+*.pem
