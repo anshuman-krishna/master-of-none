@@ -68,3 +68,24 @@ offset_left = 66.0
 offset_top = 30.0
 offset_right = 70.0
 offset_bottom = 31.0
+
+[node name="DocumentPanel" type="ColorRect" parent="."]
+visible = false
+offset_left = 58.0
+offset_top = 38.0
+offset_right = 422.0
+offset_bottom = 232.0
+
+[node name="DocumentInner" type="ColorRect" parent="DocumentPanel"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 362.0
+offset_bottom = 192.0
+
+[node name="HeaderLabel" type="Node2D" parent="DocumentPanel/DocumentInner"]
+position = Vector2(10, 10)
+script = ExtResource("2")
+
+[node name="BodyLabel" type="Node2D" parent="DocumentPanel/DocumentInner"]
+position = Vector2(10, 24)
+script = ExtResource("2")

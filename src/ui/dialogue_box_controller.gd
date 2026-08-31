@@ -21,6 +21,10 @@ const ELLIPSIS_PAUSE: float = 0.6
 @onready var _option_labels: Array[BitmapLabel] = [
 	$DialoguePanel/Option0, $DialoguePanel/Option1, $DialoguePanel/Option2, $DialoguePanel/Option3,
 ]
+@onready var _document_panel: ColorRect = $DocumentPanel
+@onready var _document_inner: ColorRect = $DocumentPanel/DocumentInner
+@onready var _document_header_label: BitmapLabel = $DocumentPanel/DocumentInner/HeaderLabel
+@onready var _document_body_label: BitmapLabel = $DocumentPanel/DocumentInner/BodyLabel
 
 var _runner: DialogueRunner
 var _active_label: BitmapLabel
@@ -38,6 +42,12 @@ func _ready() -> void:
 	_thought_label.italic = true
 	_empty_name_label.color = Palette.INK
 	_cursor.color = Palette.CONCRETE
+	_document_panel.color = Palette.INK
+	_document_inner.color = Palette.DOCUMENT
+	_document_header_label.face_name = "institutional"
+	_document_header_label.color = Palette.INK
+	_document_body_label.face_name = "institutional"
+	_document_body_label.color = Palette.INK
 	_hide_all_panels()
 	set_process(false)
 
@@ -54,6 +64,8 @@ func _on_node_shown(node_data: Dictionary) -> void:
 			_show_text_node(_thought_panel, _thought_label, node_data.get("text", ""))
 		"mute":
 			_show_mute_node(node_data)
+		"document":
+			_show_document_node(node_data)
 		_:
 			_hide_all_panels()
 
@@ -85,9 +97,27 @@ func _hide_all_panels() -> void:
 	_dialogue_panel.visible = false
 	_thought_panel.visible = false
 	_empty_panel.visible = false
+	_document_panel.visible = false
 	_in_choice = false
 	for label: BitmapLabel in _option_labels:
 		label.visible = false
+
+## documents (letters, forms, signs) render in mixed case, unlike spoken dialogue, and appear
+## in full rather than typewriter-revealed: nobody reads a poster at 30 characters a second.
+## there is no dedicated frame art for this yet (see testing/art-asset-inventory.md), so the
+## frame is a plain ink-bordered document-colour panel until real art exists.
+func _show_document_node(node_data: Dictionary) -> void:
+	_hide_all_panels()
+	_document_panel.visible = true
+	_document_header_label.text = node_data.get("header", "")
+	_document_header_label.visible_characters = -1
+	_document_body_label.text = node_data.get("text", "")
+	_document_body_label.visible_characters = -1
+	_active_label = _document_body_label
+	_full_text = node_data.get("text", "")
+	_revealed_count = _full_text.length()
+	_is_mute_node = false
+	set_process(false)
 
 ## choice options render inside the dialogue panel, in place of the normal text line, since
 ## DIALOGUE_FORMAT.md treats the preceding dialogue as the prompt rather than giving choices
