@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://src/ui/dialogue_box_controller.gd" id="1"]
+[ext_resource type="Script" path="res://src/ui/bitmap_label.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue-box.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/thought-box.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/dialogue-box-empty.png" id="5"]
+
+[node name="DialogueBoxController" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="DialoguePanel" type="TextureRect" parent="."]
+visible = false
+texture = ExtResource("3")
+offset_left = 0.0
+offset_top = 186.0
+offset_right = 480.0
+offset_bottom = 270.0
+
+[node name="TextLabel" type="Node2D" parent="DialoguePanel"]
+position = Vector2(66, 23)
+script = ExtResource("2")
+
+[node name="ThoughtPanel" type="TextureRect" parent="."]
+visible = false
+texture = ExtResource("4")
+offset_left = 0.0
+offset_top = 30.0
+offset_right = 480.0
+offset_bottom = 104.0
+
+[node name="TextLabel" type="Node2D" parent="ThoughtPanel"]
+position = Vector2(24, 22)
+script = ExtResource("2")
+
+[node name="EmptyPanel" type="TextureRect" parent="."]
+visible = false
+texture = ExtResource("5")
+offset_left = 0.0
+offset_top = 186.0
+offset_right = 480.0
+offset_bottom = 270.0
+
+[node name="NameLabel" type="Node2D" parent="EmptyPanel"]
+position = Vector2(66, 8)
+script = ExtResource("2")
+
+[node name="Cursor" type="ColorRect" parent="EmptyPanel"]
+offset_left = 66.0
+offset_top = 30.0
+offset_right = 70.0
+offset_bottom = 31.0

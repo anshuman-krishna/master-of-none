@@ -41,6 +41,13 @@ extends Node2D
 		wobble_seed = value
 		queue_redraw()
 
+## the thought box's bitmap italic: each glyph's rows shift right in three steps (2px for the
+## top third, 1px for the middle third, 0px for the bottom), never a true skew transform.
+@export var italic: bool = false:
+	set(value):
+		italic = value
+		queue_redraw()
+
 var _font: BitmapFont
 
 func _ready() -> void:
@@ -75,7 +82,8 @@ func _draw() -> void:
 		var rows: Array = _font.rows_for(character)
 		for row_index: int in range(rows.size()):
 			var row: String = rows[row_index]
+			var italic_shift: int = (2 - int(row_index / 3.0)) if italic else 0
 			for col_index: int in range(row.length()):
 				if row[col_index] == "#":
-					draw_rect(Rect2(pen_x + col_index, row_index + row_offset, 1, 1), color, true)
+					draw_rect(Rect2(pen_x + col_index + italic_shift, row_index + row_offset, 1, 1), color, true)
 		pen_x += _font.advance
