@@ -1,0 +1,67 @@
+{
+  "id": "ch0_sample_scene",
+  "chapter": 0,
+  "location": "example",
+  "nodes": [
+    {
+      "type": "say",
+      "id": "n01",
+      "speaker": "father",
+      "portrait": "father_neutral",
+      "text": "you left the door open again.",
+      "next": "n02"
+    },
+    {
+      "type": "think",
+      "id": "n02",
+      "text": "i did not.",
+      "next": "n03"
+    },
+    {
+      "type": "mute",
+      "id": "n03",
+      "speaker": "jack",
+      "portrait": "jack09_neutral",
+      "hold_ms": 1400,
+      "next": "n04"
+    },
+    {
+      "type": "choice",
+      "id": "n04",
+      "prompt": null,
+      "options": [
+        { "text": "i can work.", "next": "n05" },
+        { "text": "say nothing", "next": "n09" }
+      ]
+    },
+    {
+      "type": "document",
+      "id": "n05",
+      "header": "Loden Constabulary",
+      "text": "MISSING. Aged 16. Last seen 14th. Any information to this office.",
+      "next": "n06"
+    },
+    {
+      "type": "set",
+      "id": "n06",
+      "flag": "met_fen",
+      "value": true,
+      "next": "n07"
+    },
+    {
+      "type": "branch",
+      "id": "n07",
+      "flag": "met_fen",
+      "if_true": "n08",
+      "if_false": "n09"
+    },
+    {
+      "type": "event",
+      "id": "n08",
+      "event": "give_item",
+      "args": { "item": "toolbox" },
+      "next": "n09"
+    },
+    { "type": "end", "id": "n09" }
+  ]
+}
