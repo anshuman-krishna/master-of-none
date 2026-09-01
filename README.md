@@ -69,17 +69,44 @@ The game ships with no third-party runtime dependencies: no plugins, no C#, no e
 
 ### Engineering status
 
-The foundation layer is in place and has been run against the actual engine, not just written:
+The foundation and Phase 0 systems layer is in place and has been run against the actual
+engine, not just written:
 
 - Project boots cleanly under `godot --headless`, autoloads included, with no errors or warnings.
-- Core autoloads: `GameState` (chapter, flags, pronoun choice, player-authored tokens), `SaveManager` (JSON save/load with a versioned schema), `EventBus` (cross-system signals).
-- A token resolver handles pronoun substitution and player-authored text (kitten names, an invented surname) in one pass, with correct lowercase-in-dialogue behaviour.
-- A dialogue JSON runner walks all nine node types the format defines (`say`, `think`, `mute`, `choice`, `document`, `set`, `branch`, `event`, `end`), verified end to end against a sample scene.
-- A standalone dialogue linter (`tests/lint_dialogue.gd`) checks every dialogue file for lowercase violations, hardcoded pronouns outside tokens, dangling links, unreachable nodes, and unregistered events, and has been proven to actually catch each of those, not just pass a clean file.
-- A closed 44-colour palette is defined once, in `assets/palette.gpl`, `assets/palette.json`, and as engine constants.
-- A minimal player controller (4-direction movement, pixel snapping) and a height component (the fake-depth system the art style depends on) exist and run without error, though nothing is on screen yet since no animated sprite exists.
+- Core autoloads: `GameState` (chapter, flags, pronoun choice, player-authored tokens, and the
+  run's mutable state: hunger, hydration, debt, cash, skills, letters, current day, map
+  progress), `SaveManager` (JSON save/load with a versioned schema), `EventBus` (cross-system
+  signals).
+- A token resolver handles pronoun substitution and player-authored text (kitten names, an
+  invented surname) in one pass, with correct lowercase-in-dialogue behaviour.
+- A dialogue JSON runner walks all nine node types the format defines (`say`, `think`, `mute`,
+  `choice`, `document`, `set`, `branch`, `event`, `end`), verified end to end against a sample
+  scene, with a dialogue, thought, empty and choice box UI all wired to it.
+- A standalone dialogue linter (`tests/lint_dialogue.gd`) checks every dialogue file for
+  lowercase violations, hardcoded pronouns outside tokens, dangling links, unreachable nodes,
+  and unregistered events, and has been proven to actually catch each of those, not just pass a
+  clean file.
+- A closed 44-colour palette is defined once, in `assets/palette.gpl`, `assets/palette.json`,
+  and as engine constants, plus a bitmap font renderer with no engine font, anti-aliasing, or
+  scaling involved.
+- A player controller (4-direction movement, pixel snapping), a height component (the
+  fake-depth system the art style depends on), a contact shadow, a smoothed camera follow, and
+  a generic tall-prop occlusion fade all exist and run without error, though nothing is on
+  screen yet since no animated sprite exists.
+- Gameplay systems: upkeep (hunger and hydration as modifiers, never death, collapse-to-clinic
+  timing), a compounding debt/economy system, ten trades with a soft skill cap, a calendar/day
+  tick, and a letters system, all built as static-dispatch classes with no new autoloads, all
+  round-tripped through the save file.
+- A settings system (audio volume, a text-speed floor the player can only speed up from, key
+  rebinding) with a menu and a pause overlay to reach it, and full keyboard-plus-controller
+  input coverage.
+- Placeholder, non-final, non-recorded footstep audio (procedurally synthesised, not licensed
+  material) and a hard-cut room transition system.
 
-Nearly everything visible is not built yet: no dialogue UI, no rendered environments, no character animation. That work is tracked outside the public history, since it changes daily and isn't useful to a reader here.
+Nearly everything visible is not built yet: no rendered environments, no character animation,
+no NPCs. Most of the remaining engineering work depends on art that does not exist yet
+(interiors, tilesets, animation frames) rather than on more systems code. That backlog is
+tracked outside the public history, since it changes daily and isn't useful to a reader here.
 
 ### Project structure
 
