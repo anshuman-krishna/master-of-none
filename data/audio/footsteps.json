@@ -1,0 +1,22 @@
+{
+	"wood": [
+		"res://assets/audio/sfx/footsteps/wood_1.wav",
+		"res://assets/audio/sfx/footsteps/wood_2.wav",
+		"res://assets/audio/sfx/footsteps/wood_3.wav"
+	],
+	"grass": [
+		"res://assets/audio/sfx/footsteps/grass_1.wav",
+		"res://assets/audio/sfx/footsteps/grass_2.wav",
+		"res://assets/audio/sfx/footsteps/grass_3.wav"
+	],
+	"stone": [
+		"res://assets/audio/sfx/footsteps/stone_1.wav",
+		"res://assets/audio/sfx/footsteps/stone_2.wav",
+		"res://assets/audio/sfx/footsteps/stone_3.wav"
+	],
+	"water": [
+		"res://assets/audio/sfx/footsteps/water_1.wav",
+		"res://assets/audio/sfx/footsteps/water_2.wav",
+		"res://assets/audio/sfx/footsteps/water_3.wav"
+	]
+}

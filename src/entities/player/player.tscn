@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://src/entities/player/player_controller.gd" id="1"]
 [ext_resource type="Script" path="res://src/core/height_component.gd" id="2"]
 [ext_resource type="Script" path="res://src/entities/player/camera_controller.gd" id="3"]
 [ext_resource type="Script" path="res://src/entities/shadow_component.gd" id="4"]
+[ext_resource type="Script" path="res://src/systems/audio/footstep_system.gd" id="5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(10, 6)
@@ -25,3 +26,6 @@ script = ExtResource("2")
 
 [node name="Camera" type="Camera2D" parent="."]
 script = ExtResource("3")
+
+[node name="Footsteps" type="Node2D" parent="."]
+script = ExtResource("5")
