@@ -1,0 +1,12 @@
+{
+	"carpentry": { "display_name": "carpentry", "cap": 85 },
+	"joinery": { "display_name": "joinery", "cap": 80 },
+	"wiring": { "display_name": "wiring", "cap": 75 },
+	"plumbing": { "display_name": "plumbing", "cap": 75 },
+	"cooking": { "display_name": "cooking", "cap": 80 },
+	"bookkeeping": { "display_name": "bookkeeping", "cap": 70 },
+	"negotiation": { "display_name": "negotiation", "cap": 75 },
+	"cycling": { "display_name": "cycling", "cap": 85 },
+	"fishing": { "display_name": "fishing", "cap": 80 },
+	"repair": { "display_name": "repair", "cap": 80 }
+}

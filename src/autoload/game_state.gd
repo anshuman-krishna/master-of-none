@@ -12,6 +12,16 @@ var pronoun: Pronoun = Pronoun.BOY
 var flags: Dictionary = {}
 var player_tokens: Dictionary = {}
 
+var current_day: int = 0
+var hunger: float = 100.0
+var hydration: float = 100.0
+var debt: float = 0.0
+var cash: float = 0.0
+var skills: Dictionary = {}
+var letters: Array = []
+var scheduled_letters: Array = []
+var map_stage: int = 0
+
 func set_pronoun(value: Pronoun) -> void:
 	pronoun = value
 
@@ -57,6 +67,15 @@ func to_save_dict() -> Dictionary:
 		"pronoun": pronoun,
 		"flags": flags,
 		"player_tokens": player_tokens,
+		"current_day": current_day,
+		"hunger": hunger,
+		"hydration": hydration,
+		"debt": debt,
+		"cash": cash,
+		"skills": skills,
+		"letters": letters,
+		"scheduled_letters": scheduled_letters,
+		"map_stage": map_stage,
 	}
 
 func from_save_dict(data: Dictionary) -> void:
@@ -64,3 +83,12 @@ func from_save_dict(data: Dictionary) -> void:
 	pronoun = data.get("pronoun", Pronoun.BOY) as Pronoun
 	flags = data.get("flags", {})
 	player_tokens = data.get("player_tokens", {})
+	current_day = data.get("current_day", 0)
+	hunger = data.get("hunger", 100.0)
+	hydration = data.get("hydration", 100.0)
+	debt = data.get("debt", 0.0)
+	cash = data.get("cash", 0.0)
+	skills = data.get("skills", {})
+	letters = data.get("letters", [])
+	scheduled_letters = data.get("scheduled_letters", [])
+	map_stage = data.get("map_stage", 0)

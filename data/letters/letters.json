@@ -1,0 +1,10 @@
+{
+	"electricity": { "envelope": "electricity", "category": "utility", "good_news": false },
+	"water": { "envelope": "water", "category": "utility", "good_news": false },
+	"clinic_bill": { "envelope": "clinic-bill", "category": "clinic", "good_news": false },
+	"tax": { "envelope": "tax", "category": "tax", "good_news": false },
+	"papers_office": { "envelope": "papers-office", "category": "papers", "good_news": false },
+	"final_notice": { "envelope": "final-notice", "category": "debt", "good_news": false },
+	"good_news": { "envelope": "good-news", "category": "personal", "good_news": true },
+	"hand_written": { "envelope": "hand-written", "category": "personal", "good_news": false }
+}
