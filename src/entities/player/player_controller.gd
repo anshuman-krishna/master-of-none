@@ -9,6 +9,10 @@ enum Facing { DOWN, UP, LEFT, RIGHT }
 
 var facing: Facing = Facing.DOWN
 
+func _ready() -> void:
+	# lets a TallPropOcclusionArea find and fade this entity's visual (see F-025)
+	add_to_group("occludable")
+
 func _physics_process(_delta: float) -> void:
 	var input_vector: Vector2 = _read_input_vector()
 	velocity = input_vector * move_speed
