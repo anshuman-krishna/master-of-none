@@ -81,7 +81,7 @@ func _show_text_node(panel: Control, label: BitmapLabel, text: String) -> void:
 	_full_text = text
 	_revealed_count = 0
 	label.visible_characters = 0
-	_reveal_timer = CHAR_INTERVAL
+	_reveal_timer = _char_interval()
 	set_process(true)
 
 func _show_mute_node(node_data: Dictionary) -> void:
@@ -179,10 +179,15 @@ func _pause_after(revealed_count: int) -> float:
 		return ELLIPSIS_PAUSE
 	var last_char: String = _full_text[revealed_count - 1]
 	if last_char == ",":
-		return CHAR_INTERVAL + COMMA_PAUSE
+		return _char_interval() + COMMA_PAUSE
 	if last_char == ".":
-		return CHAR_INTERVAL + PERIOD_PAUSE
-	return CHAR_INTERVAL
+		return _char_interval() + PERIOD_PAUSE
+	return _char_interval()
+
+## the design floor is CHAR_INTERVAL (~30 chars/sec); settings can only speed this up, per
+## SettingsSystem.get_text_speed_multiplier()'s own floor, never slow it below the authored pace
+func _char_interval() -> float:
+	return CHAR_INTERVAL / SettingsSystem.get_text_speed_multiplier()
 
 ## called on the advance_dialogue input. a choice confirms the highlighted option. the empty
 ## (mute) box holds itself and does not respond to input; the runner's own timer closes it.

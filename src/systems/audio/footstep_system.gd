@@ -20,6 +20,7 @@ func _ready() -> void:
 	if target == null:
 		target = get_parent() as Node2D
 	_player = AudioStreamPlayer.new()
+	_player.bus = "SFX"
 	add_child(_player)
 	if target != null:
 		_last_position = target.global_position
