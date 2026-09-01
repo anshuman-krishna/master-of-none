@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/ui/pronoun_select_controller.gd" id="1"]
+[ext_resource type="Script" path="res://src/ui/bitmap_label.gd" id="2"]
+
+[node name="PronounSelectController" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="BoyOption" type="Node2D" parent="."]
+position = Vector2(210, 120)
+script = ExtResource("2")
+face_name = "institutional"
+
+[node name="GirlOption" type="Node2D" parent="."]
+position = Vector2(210, 140)
+script = ExtResource("2")
+face_name = "institutional"
