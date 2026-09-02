@@ -1,0 +1,15 @@
+{
+  "id": "c0_jeep_kitchen",
+  "chapter": 0,
+  "location": "home_kitchen",
+  "nodes": [
+    { "type": "mute", "id": "n01", "speaker": "jack", "portrait": "jack09_neutral", "hold_ms": 1400, "next": "n02" },
+    { "type": "think", "id": "n02", "text": "still going.", "next": "n03" },
+    { "type": "mute", "id": "n03", "speaker": "jack", "portrait": "jack09_neutral", "hold_ms": 1200, "next": "n04" },
+    { "type": "think", "id": "n04", "text": "father isn't looking.", "next": "n05" },
+    { "type": "think", "id": "n05", "text": "mother isn't either.", "next": "n06" },
+    { "type": "mute", "id": "n06", "speaker": "jack", "portrait": "jack09_neutral", "hold_ms": 1600, "next": "n07" },
+    { "type": "set", "id": "n07", "flag": "c0_jeep_kitchen_seen", "value": true, "next": "n08" },
+    { "type": "end", "id": "n08" }
+  ]
+}

@@ -6,6 +6,8 @@ extends Control
 #   does not have.
 # does not own: what grants skill experience, or when this screen opens (see SkillSystem)
 
+signal closed
+
 const ROW_HEIGHT: int = 22
 const BAR_WIDTH: int = 220
 const BAR_HEIGHT: int = 6
@@ -17,6 +19,11 @@ func _ready() -> void:
 	var trade_ids: Array = SkillSystem.get_trade_ids()
 	for i: int in range(trade_ids.size()):
 		_build_row(trade_ids[i], START_Y + i * ROW_HEIGHT)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("pause") or event.is_action_pressed("advance_dialogue"):
+		closed.emit()
+		get_viewport().set_input_as_handled()
 
 func _build_row(trade_id: String, y: int) -> void:
 	var label: BitmapLabel = BitmapLabel.new()

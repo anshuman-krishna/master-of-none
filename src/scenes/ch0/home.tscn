@@ -1,0 +1,170 @@
+[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/ch0/home.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rooms/home_bedroom.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rooms/home_kitchen.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/jeep.png" id="5"]
+[ext_resource type="Script" path="res://src/entities/interactable.gd" id="6"]
+[ext_resource type="PackedScene" path="res://src/entities/npc/father.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://src/entities/npc/mother.tscn" id="8"]
+[ext_resource type="Script" path="res://src/systems/dialogue/dialogue_runner.gd" id="9"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/dialogue_box.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/room_transition.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/pause_menu.tscn" id="12"]
+
+[sub_resource type="RectangleShape2D" id="bed_west"]
+size = Vector2(2, 128)
+[sub_resource type="RectangleShape2D" id="bed_east"]
+size = Vector2(2, 128)
+[sub_resource type="RectangleShape2D" id="bed_south"]
+size = Vector2(128, 2)
+[sub_resource type="RectangleShape2D" id="bed_north_left"]
+size = Vector2(18, 4)
+[sub_resource type="RectangleShape2D" id="bed_north_right"]
+size = Vector2(84, 4)
+[sub_resource type="RectangleShape2D" id="bed_furniture"]
+size = Vector2(44, 30)
+[sub_resource type="RectangleShape2D" id="bed_box_area"]
+size = Vector2(30, 26)
+[sub_resource type="RectangleShape2D" id="bed_door_area"]
+size = Vector2(26, 12)
+
+[sub_resource type="RectangleShape2D" id="kit_west"]
+size = Vector2(2, 128)
+[sub_resource type="RectangleShape2D" id="kit_east"]
+size = Vector2(2, 128)
+[sub_resource type="RectangleShape2D" id="kit_south"]
+size = Vector2(160, 2)
+[sub_resource type="RectangleShape2D" id="kit_north_left"]
+size = Vector2(18, 4)
+[sub_resource type="RectangleShape2D" id="kit_north_right"]
+size = Vector2(116, 4)
+[sub_resource type="RectangleShape2D" id="kit_table"]
+size = Vector2(44, 30)
+[sub_resource type="RectangleShape2D" id="kit_door_area"]
+size = Vector2(26, 12)
+
+[node name="Home" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Bedroom" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite2D" parent="Bedroom"]
+texture = ExtResource("3")
+centered = false
+
+[node name="Spawn" type="Marker2D" parent="Bedroom"]
+position = Vector2(31, 60)
+
+[node name="WestWall" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/WestWall"]
+position = Vector2(0, 112)
+shape = SubResource("bed_west")
+
+[node name="EastWall" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/EastWall"]
+position = Vector2(128, 112)
+shape = SubResource("bed_east")
+
+[node name="SouthWall" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/SouthWall"]
+position = Vector2(64, 176)
+shape = SubResource("bed_south")
+
+[node name="NorthWallLeft" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/NorthWallLeft"]
+position = Vector2(9, 46)
+shape = SubResource("bed_north_left")
+
+[node name="NorthWallRight" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/NorthWallRight"]
+position = Vector2(86, 46)
+shape = SubResource("bed_north_right")
+
+[node name="Bed" type="StaticBody2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/Bed"]
+position = Vector2(98, 77)
+shape = SubResource("bed_furniture")
+
+[node name="JeepProp" type="Sprite2D" parent="Bedroom"]
+visible = false
+position = Vector2(84, 96)
+texture = ExtResource("5")
+
+[node name="BoxInteractable" type="Area2D" parent="Bedroom"]
+script = ExtResource("6")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/BoxInteractable"]
+position = Vector2(70, 92)
+shape = SubResource("bed_box_area")
+
+[node name="DoorTrigger" type="Area2D" parent="Bedroom"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/DoorTrigger"]
+position = Vector2(31, 46)
+shape = SubResource("bed_door_area")
+
+[node name="Kitchen" type="Node2D" parent="."]
+position = Vector2(300, 0)
+visible = false
+
+[node name="Background" type="Sprite2D" parent="Kitchen"]
+texture = ExtResource("4")
+centered = false
+
+[node name="Spawn" type="Marker2D" parent="Kitchen"]
+position = Vector2(31, 55)
+
+[node name="WestWall" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/WestWall"]
+position = Vector2(0, 104)
+shape = SubResource("kit_west")
+
+[node name="EastWall" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/EastWall"]
+position = Vector2(160, 104)
+shape = SubResource("kit_east")
+
+[node name="SouthWall" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/SouthWall"]
+position = Vector2(80, 168)
+shape = SubResource("kit_south")
+
+[node name="NorthWallLeft" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/NorthWallLeft"]
+position = Vector2(9, 38)
+shape = SubResource("kit_north_left")
+
+[node name="NorthWallRight" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/NorthWallRight"]
+position = Vector2(102, 38)
+shape = SubResource("kit_north_right")
+
+[node name="Table" type="StaticBody2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/Table"]
+position = Vector2(80, 85)
+shape = SubResource("kit_table")
+
+[node name="DoorTrigger" type="Area2D" parent="Kitchen"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Kitchen/DoorTrigger"]
+position = Vector2(31, 38)
+shape = SubResource("kit_door_area")
+
+[node name="Father" parent="Kitchen" instance=ExtResource("7")]
+position = Vector2(125, 130)
+
+[node name="Mother" parent="Kitchen" instance=ExtResource("8")]
+position = Vector2(25, 130)
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(31, 60)
+
+[node name="DialogueRunner" type="Node" parent="."]
+script = ExtResource("9")
+
+[node name="RoomTransition" parent="." instance=ExtResource("11")]
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="DialogueBox" parent="UILayer" instance=ExtResource("10")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("12")]

@@ -16,6 +16,7 @@ const REGISTERED_EVENTS: PackedStringArray = [
 	"advance_day",
 	"start_cutscene",
 	"trigger_letter",
+	"increase_skill",
 ]
 
 var _error_count: int = 0

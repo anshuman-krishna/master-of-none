@@ -1,14 +1,14 @@
 class_name PauseMenuController
 extends CanvasLayer
-# owns: the pause overlay reachable from gameplay via the "pause" action: resume, open
-#   settings, or quit. this is what actually makes SettingsMenuController reachable in game,
-#   since nothing else in the project opens it yet.
+# owns: the pause overlay reachable from gameplay via the "pause" action: resume, open the
+#   stat screen, open settings, or quit. this is what makes StatScreenController and
+#   SettingsMenuController reachable in game; nothing else in the project opens either yet.
 # does not own: the settings themselves (see SettingsSystem), or a main-menu/title flow, which
 #   does not exist yet, so "quit" exits the application rather than returning to one
 
 signal resumed
 
-const ROW_NAMES: Array[String] = ["resume", "settings", "quit"]
+const ROW_NAMES: Array[String] = ["resume", "stats", "settings", "quit"]
 const ROW_HEIGHT: int = 16
 const START_Y: int = 100
 const LABEL_X: int = 200
@@ -16,6 +16,7 @@ const LABEL_X: int = 200
 var _selected_index: int = 0
 var _row_labels: Array[BitmapLabel] = []
 var _settings_menu: Control
+var _stat_screen: Control
 var _paused: bool = false
 
 @onready var _cover: ColorRect = $Cover
@@ -49,7 +50,7 @@ func _refresh_display() -> void:
 		_row_labels[i].color = Palette.EMBER if i == _selected_index else Palette.FROST
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _settings_menu != null:
+	if _settings_menu != null or _stat_screen != null:
 		return
 	if not _paused:
 		if event.is_action_pressed("pause"):
@@ -74,10 +75,24 @@ func _confirm_selected() -> void:
 	match ROW_NAMES[_selected_index]:
 		"resume":
 			_resume()
+		"stats":
+			_open_stats()
 		"settings":
 			_open_settings()
 		"quit":
 			get_tree().quit()
+
+func _open_stats() -> void:
+	var scene: PackedScene = load("res://src/scenes/shared/stat_screen.tscn")
+	_stat_screen = scene.instantiate()
+	_stat_screen.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_stat_screen)
+	_stat_screen.closed.connect(_on_stats_closed)
+
+func _on_stats_closed() -> void:
+	_stat_screen.queue_free()
+	_stat_screen = null
+	_refresh_display()
 
 func _resume() -> void:
 	set_paused_visible(false)

@@ -8,6 +8,7 @@ const REGISTERED_EVENTS: PackedStringArray = [
 	"advance_day",
 	"start_cutscene",
 	"trigger_letter",
+	"increase_skill",
 ]
 
 static func dispatch(event_name: String, args: Dictionary) -> void:
@@ -23,6 +24,8 @@ static func dispatch(event_name: String, args: Dictionary) -> void:
 			_start_cutscene(args)
 		"trigger_letter":
 			_trigger_letter(args)
+		"increase_skill":
+			_increase_skill(args)
 
 static func _give_item(args: Dictionary) -> void:
 	var item_id: String = args.get("item", "")
@@ -44,3 +47,10 @@ static func _trigger_letter(args: Dictionary) -> void:
 		push_error("event_registry: trigger_letter called with no letter id")
 		return
 	EventBus.letter_received.emit(letter_id)
+
+static func _increase_skill(args: Dictionary) -> void:
+	var trade_id: String = args.get("trade", "")
+	if trade_id.is_empty():
+		push_error("event_registry: increase_skill called with no trade id")
+		return
+	SkillSystem.increase_level(trade_id, int(args.get("amount", 1)))

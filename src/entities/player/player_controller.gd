@@ -12,6 +12,8 @@ var facing: Facing = Facing.DOWN
 func _ready() -> void:
 	# lets a TallPropOcclusionArea find and fade this entity's visual (see F-025)
 	add_to_group("occludable")
+	# lets an Interactable's Area2D tell the player apart from any other body it detects
+	add_to_group("player")
 
 func _physics_process(_delta: float) -> void:
 	var input_vector: Vector2 = _read_input_vector()
