@@ -14,7 +14,7 @@ This game deals with sustained emotional abuse of a child by his parents, the de
 
 ### What it is
 
-Master of None follows a teenager, called Jack regardless of whether the player picks the boy or the girl, who grows up in a small, quiet, unhappy household by a lake. He does not speak for the first sixteen years of his life, not because he cannot, but because his house never gave him a reason that felt safe. At sixteen, after a night that costs him almost everything he cares about, he leaves, taking one surviving kitten with him, and walks into a town he has never seen.
+Master of None follows a teenager, called Jack (nickname) regardless of whether the player picks the boy or the girl, who grows up in a small, quiet, unhappy household by a lake. He does not speak for the first nine years of his life, not because he cannot, but because his house never gave him a reason that felt safe (selective mutism). At sixteen, after a night that costs him almost everything he cares about, he leaves, taking one surviving kitten with him, and walks into a town he has never seen.
 
 What follows is not a rescue story. Jack finds someone willing to teach him a trade, and the game becomes about the specific, unglamorous work of learning to be useful: carpentry, a paper route, keeping a cat fed, reading a ledger. There is no combat, no game over, and no boss fight standing between Jack and anything he wants. The obstacles are structural: money, time, and the fact that a sixteen-year-old with no paperwork is, in the eyes of every institution he meets, functionally invisible. Debt and hardship close doors in this game. They never end it.
 
