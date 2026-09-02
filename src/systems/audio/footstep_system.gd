@@ -1,8 +1,9 @@
 class_name FootstepSystem
 extends Node2D
 # owns: triggering a per-surface footstep sound at a fixed walking cadence, tracked by
-#   distance travelled rather than by animation frame, since no walk-cycle animation exists
-#   yet (see testing/todos.md F-026). re-sync this to footfall frames once animation lands.
+#   distance travelled rather than by animation frame. re-sync this to footfall frames once
+#   the walk cycle has real per-frame foot-contact poses to sync against (see testing/todos.md
+#   F-026: current frames are a procedural stride, not hand-timed footfalls).
 # does not own: deciding which surface the entity stands on; the caller sets surface_id,
 #   typically from a tile/area check that does not exist yet either
 

@@ -80,6 +80,24 @@ the entity's ground position, independent of the height offset), `CameraControll
 follow), and `FootstepSystem` (distance-triggered per-surface audio). The same composition
 (shadow + height + footsteps) is intended for any future NPC or cat entity, not just the player.
 
+`HeightComponent`'s one child, `Visual`, is an `AnimatedSprite2D` driven by
+`CharacterAnimator` (`src/entities/player/character_animator.gd`), which switches between its
+`idle` and `walk` animations based on `PlayerController.is_moving()`. The frames come from
+`src/entities/player/jack16.tres`, a `SpriteFrames` resource pointing at
+`assets/sprites/characters/jack16/`. Those PNGs are not hand-drawn: they are rendered by
+`design-export/src/mon-art.js`'s `characterAnimFrame()`/`characterAnimFrames()`, which extend
+the same `figure()` silhouette engine that draws every construction sprite with per-frame limb
+offsets (`figureAnim()`, `idleFrames()`, `walkFrames()`) rather than a second, hand-authored
+animation pipeline. Coverage is down-facing only: `figure()` draws no facial features at this
+scale, so an "up" (back) view would be pixel-identical to "down", and "left/right" would need a
+genuine profile silhouette rather than a mirrored guess, so those were not invented. `jack16` is
+the only state copied into `assets/sprites/` and wired into a scene, since it is the only one
+any scene currently needs. `jack9`, `jack15`, `jack16wet`, and `jack18` have verified frames
+generated the same way, sitting in `design-export/assets/characters/anim/` alongside the rest
+of that folder's construction art, not yet promoted to `assets/sprites/` since no age-swap
+system exists yet to select between them at runtime. See `testing/todos.md` F-026 for exact
+per-state status.
+
 ## Settings
 
 `SettingsSystem` (`src/systems/settings/settings_system.gd`) persists to a separate
@@ -122,8 +140,10 @@ which cannot produce a real frame, so no on-screen layout or pixel output is cov
 
 ## What does not exist yet
 
-No animation system, no NPC or cat entity scripts, no room/interior rendering, no inventory or
-HUD scene. `LetterSystem` and `MapSystem` are fully built and verified at the data/logic level
-but have no visible presentation, since the room and HUD scenes they would render into do not
-exist. See `testing/todos.md` for the full account of what is and is not built, and
+Down-facing idle/walk animation exists only for the player, only for Jack, and only from the
+front (see Entities above); no up/left/right facing, no NPC or cat entity scripts or animation,
+no run/carry/work/sit cycles, no room/interior rendering, no inventory or HUD scene.
+`LetterSystem` and `MapSystem` are fully built and verified at the data/logic level but have no
+visible presentation, since the room and HUD scenes they would render into do not exist. See
+`testing/todos.md` for the full account of what is and is not built, and
 `testing/art-asset-inventory.md` for what art exists to build against.
