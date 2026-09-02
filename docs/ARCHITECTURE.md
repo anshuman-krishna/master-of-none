@@ -102,6 +102,24 @@ analog stick input is not mapped). No UI in the game reads a raw key or button d
 input goes through the action layer, which is what makes key rebinding possible without
 touching any consuming script.
 
+## Testing
+
+`tests/lint_dialogue.gd` runs standalone via `godot --headless --script`, since it only reads
+JSON off disk and never touches an autoload. Everything else that needs verifying reads or
+writes `GameState`, `SaveManager`, or `EventBus`, and autoloads only initialise when the engine
+boots a project normally, not under `--script`. `tests/system_tests.gd` is a `Node` script run
+as an actual scene instead (`godot --headless --path . res://tests/system_tests.tscn`), which
+gets autoloads for free without touching `project.godot`'s configured main scene. It resets
+`GameState` to known values, backs up and restores the real `user://save.json` and
+`user://settings.json` so a test run never leaves stray data behind, then exercises
+`TokenResolver`, `GameState`'s token sanitiser, `SaveManager`'s round trip, and every Phase 0
+static-dispatch system (`UpkeepSystem`, `DebtSystem`, `SkillSystem`, `LetterSystem`,
+`CalendarSystem`, `MapSystem`, `SettingsSystem`, `EventRegistry`), including their zero/cap/
+clamp edge cases and the invalid-input paths that are supposed to `push_error` rather than
+corrupt state. It exits 1 on any failed check, so it can gate a commit the same way the dialogue
+linter does. Neither test replaces actually opening the editor: both run under `--headless`,
+which cannot produce a real frame, so no on-screen layout or pixel output is covered by either.
+
 ## What does not exist yet
 
 No animation system, no NPC or cat entity scripts, no room/interior rendering, no inventory or
