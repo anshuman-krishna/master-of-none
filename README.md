@@ -69,44 +69,64 @@ The game ships with no third-party runtime dependencies: no plugins, no C#, no e
 
 ### Engineering status
 
-The foundation and Phase 0 systems layer is in place and has been run against the actual
-engine, not just written:
+![Engineering status: foundation and core systems built and verified against the real engine, content and art not started](docs/media/engineering-status.svg)
 
-- Project boots cleanly under `godot --headless`, autoloads included, with no errors or warnings.
-- Core autoloads: `GameState` (chapter, flags, pronoun choice, player-authored tokens, and the
-  run's mutable state: hunger, hydration, debt, cash, skills, letters, current day, map
-  progress), `SaveManager` (JSON save/load with a versioned schema), `EventBus` (cross-system
-  signals).
-- A token resolver handles pronoun substitution and player-authored text (kitten names, an
-  invented surname) in one pass, with correct lowercase-in-dialogue behaviour.
-- A dialogue JSON runner walks all nine node types the format defines (`say`, `think`, `mute`,
-  `choice`, `document`, `set`, `branch`, `event`, `end`), verified end to end against a sample
-  scene, with a dialogue, thought, empty and choice box UI all wired to it.
-- A standalone dialogue linter (`tests/lint_dialogue.gd`) checks every dialogue file for
-  lowercase violations, hardcoded pronouns outside tokens, dangling links, unreachable nodes,
-  and unregistered events, and has been proven to actually catch each of those, not just pass a
-  clean file.
-- A closed 44-colour palette is defined once, in `assets/palette.gpl`, `assets/palette.json`,
-  and as engine constants, plus a bitmap font renderer with no engine font, anti-aliasing, or
+Foundation and core systems have been run against the actual engine, not just written and
+assumed to work. Content and art are the honest bottleneck right now, not code.
+
+**Engine and foundation**
+
+- Boots cleanly under `godot --headless`, autoloads included, with no errors or warnings.
+- A closed 44-colour palette, defined once in `assets/palette.gpl`, `assets/palette.json`, and
+  as engine constants, plus a bitmap font renderer with no engine font, anti-aliasing, or
   scaling involved.
+- Three autoloads: `GameState` (chapter, flags, pronoun choice, player-authored tokens, and a
+  run's mutable state: hunger, hydration, debt, cash, skills, letters, current day, map
+  progress), `SaveManager` (JSON save and load with a versioned schema), `EventBus`
+  (cross-system signals).
+
+**Dialogue**
+
+- A dialogue JSON runner that walks all nine node types the format defines (`say`, `think`,
+  `mute`, `choice`, `document`, `set`, `branch`, `event`, `end`), verified end to end against a
+  sample scene, with dialogue, thought, empty and choice box UI wired to it.
+- A token resolver that handles pronoun substitution and player-authored text (kitten names, an
+  invented surname) in one pass, with correct lowercase-in-dialogue behaviour.
+- A standalone linter (`tests/lint_dialogue.gd`) that checks every dialogue file for lowercase
+  violations, hardcoded pronouns outside tokens, dangling links, unreachable nodes, and
+  unregistered events, proven to actually catch each of those, not just pass a clean file.
+
+**Gameplay systems**
+
+Upkeep (hunger and hydration as modifiers, never death, collapse-to-clinic timing), a
+compounding debt and economy system, ten trades with a soft skill cap, a calendar and day tick,
+and a letters system. All built as static-dispatch classes with no new autoloads, all
+round-tripped through the save file.
+
+**Player, camera, and animation**
+
 - A player controller (4-direction movement, pixel snapping), a height component (the
   fake-depth system the art style depends on), a contact shadow, a smoothed camera follow, and
-  a generic tall-prop occlusion fade all exist and run without error, though nothing is on
-  screen yet since no animated sprite exists.
-- Gameplay systems: upkeep (hunger and hydration as modifiers, never death, collapse-to-clinic
-  timing), a compounding debt/economy system, ten trades with a soft skill cap, a calendar/day
-  tick, and a letters system, all built as static-dispatch classes with no new autoloads, all
-  round-tripped through the save file.
-- A settings system (audio volume, a text-speed floor the player can only speed up from, key
-  rebinding) with a menu and a pause overlay to reach it, and full keyboard-plus-controller
-  input coverage.
-- Placeholder, non-final, non-recorded footstep audio (procedurally synthesised, not licensed
-  material) and a hard-cut room transition system.
+  a generic tall-prop occlusion fade.
+- Idle and walk animation, generated from the same code that draws the reference art rather
+  than hand-drawn, wired to one age of the player character and switching live off movement
+  state. It only faces the camera: no up, left, or right facing exists yet, since that needs a
+  real profile silhouette, not a mirrored guess.
 
-Nearly everything visible is not built yet: no rendered environments, no character animation,
-no NPCs. Most of the remaining engineering work depends on art that does not exist yet
-(interiors, tilesets, animation frames) rather than on more systems code. That backlog is
-tracked outside the public history, since it changes daily and isn't useful to a reader here.
+**Settings and audio**
+
+A settings system (audio volume, a text-speed floor the player can only speed up from, key
+rebinding) with a menu and a pause overlay to reach it, full keyboard-plus-controller input
+coverage, placeholder procedurally synthesised footstep audio (not licensed material), and a
+hard-cut room transition system.
+
+**Not built yet**
+
+No rendered rooms or interiors, no NPCs placed in a scene, no run, carry, work, or sleep
+animation, no facing but down. Most of the remaining engineering work depends on art that does
+not exist yet (interiors, tilesets, more animation) rather than on more systems code. That
+backlog is tracked outside the public history, since it changes daily and isn't useful to a
+reader here.
 
 ### Project structure
 
@@ -133,18 +153,75 @@ tracked outside the public history, since it changes daily and isn't useful to a
 
 `ideation/` and `design-export/` are gitignored on purpose. Nothing in either is loaded at runtime; production assets get drawn or rebuilt into `assets/` deliberately, matching the silhouette, height and palette the reference art locks in.
 
-### How to run it from source
+### Setup
 
-1. Install [Godot 4.7.2](https://godotengine.org/download), stable channel.
-2. Install Git LFS and initialise it for this repository:
+Two things are needed either way: Godot 4.7.2, stable channel (the exact version this project
+is pinned to), and Git LFS. The art and audio in this repository are stored through Git LFS, so
+a plain clone without it leaves you with small placeholder text files instead of the real
+images.
+
+#### macOS
+
+1. Install Godot.
    ```
-   brew install git-lfs        # or your platform's equivalent
-   git lfs install --local
+   brew install --cask godot
    ```
-3. Clone this repository and open it in Godot, or run it headless to confirm it boots:
+   Or download the app directly from [godotengine.org/download](https://godotengine.org/download)
+   and drop it into Applications.
+
+2. Install Git LFS and turn it on.
+   ```
+   brew install git-lfs
+   git lfs install
+   ```
+
+3. Clone the repository and confirm it boots.
    ```
    git clone <repository-url>
    cd master-of-none
    godot --headless --path . --quit-after 10
    ```
-4. There is no playable content yet, so the above confirms the engine boots and the autoloads initialise. Opening the project in the Godot editor (`godot --editor --path .`) is the way to actually look around.
+
+4. Open it in the editor to actually look around.
+   ```
+   godot --editor --path .
+   ```
+
+#### Windows
+
+1. Install Godot.
+
+   Download the standalone `.exe` from
+   [godotengine.org/download](https://godotengine.org/download). There is no installer, it is
+   one portable file. Put it somewhere permanent, for example `C:\Godot\Godot.exe`, and add
+   that folder to your PATH so the `godot` command works from any terminal. If you use winget
+   instead, `winget install GodotEngine.GodotEngine` does the same thing.
+
+2. Install Git and Git LFS.
+
+   Install [Git for Windows](https://git-scm.com/download/win) if it isn't already on your
+   machine (it includes Git Bash). Then install Git LFS from
+   [git-lfs.com](https://git-lfs.com) and turn it on.
+   ```
+   git lfs install
+   ```
+
+3. Clone the repository and confirm it boots. This works from Git Bash, PowerShell, or Command
+   Prompt.
+   ```
+   git clone <repository-url>
+   cd master-of-none
+   godot --headless --path . --quit-after 10
+   ```
+   If `godot` isn't recognised as a command, use the full path to `Godot.exe` instead.
+
+4. Open it in the editor to actually look around.
+   ```
+   godot --editor --path .
+   ```
+
+#### Either platform
+
+There is no playable content yet, so the steps above only confirm the engine boots and the
+autoloads initialise cleanly with no errors. Opening the project in the editor is the way to
+actually look around at what exists so far.

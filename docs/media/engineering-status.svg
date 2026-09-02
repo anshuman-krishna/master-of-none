@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" font-family="'Courier New', Courier, monospace">
+  <title>Engineering status: foundation and core systems built and verified, content and art not started</title>
+
+  <rect x="0" y="0" width="960" height="300" fill="#1c222e"/>
+
+  <line x1="300" y1="125" x2="340" y2="125" stroke="#647486" stroke-width="3"/>
+  <line x1="620" y1="125" x2="660" y2="125" stroke="#647486" stroke-width="3"/>
+  <rect x="298" y="121" width="8" height="8" fill="#647486"/>
+  <rect x="334" y="121" width="8" height="8" fill="#647486"/>
+  <rect x="618" y="121" width="8" height="8" fill="#647486"/>
+  <rect x="654" y="121" width="8" height="8" fill="#647486"/>
+
+  <g>
+    <rect x="20" y="30" width="280" height="190" fill="#2f3a4a" stroke="#71a04c" stroke-width="3"/>
+    <rect x="36" y="46" width="26" height="26" fill="#71a04c"/>
+    <polyline points="42,60 51,68 66,50" fill="none" stroke="#1a1114" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter"/>
+    <text x="72" y="65" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">FOUNDATION</text>
+    <text x="72" y="83" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">&amp; ENGINE</text>
+    <text x="36" y="112" fill="#b0bcc7" font-size="13">boots clean under</text>
+    <text x="36" y="130" fill="#b0bcc7" font-size="13">Godot 4.7.2, no errors</text>
+    <text x="36" y="152" fill="#b0bcc7" font-size="13">closed palette, bitmap</text>
+    <text x="36" y="170" fill="#b0bcc7" font-size="13">font renderer, no engine</text>
+    <text x="36" y="188" fill="#b0bcc7" font-size="13">font used anywhere</text>
+  </g>
+
+  <g>
+    <rect x="340" y="30" width="280" height="190" fill="#2f3a4a" stroke="#71a04c" stroke-width="3"/>
+    <rect x="356" y="46" width="26" height="26" fill="#71a04c"/>
+    <polyline points="362,60 371,68 386,50" fill="none" stroke="#1a1114" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter"/>
+    <text x="392" y="65" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">CORE</text>
+    <text x="392" y="83" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">SYSTEMS</text>
+    <text x="356" y="112" fill="#b0bcc7" font-size="13">dialogue runner, token</text>
+    <text x="356" y="130" fill="#b0bcc7" font-size="13">resolver, save round trip</text>
+    <text x="356" y="152" fill="#b0bcc7" font-size="13">upkeep, debt, skills,</text>
+    <text x="356" y="170" fill="#b0bcc7" font-size="13">calendar, letters, settings</text>
+    <text x="356" y="188" fill="#b0bcc7" font-size="13">all verified against Godot</text>
+  </g>
+
+  <g>
+    <rect x="660" y="30" width="280" height="190" fill="#1c222e" stroke="#8996a5" stroke-width="3" stroke-dasharray="6 5"/>
+    <rect x="676" y="46" width="26" height="26" fill="none" stroke="#8996a5" stroke-width="3"/>
+    <text x="712" y="65" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">CONTENT</text>
+    <text x="712" y="83" fill="#dce3e8" font-size="16" font-weight="bold" letter-spacing="1">&amp; ART</text>
+    <text x="676" y="112" fill="#8996a5" font-size="13">no rendered rooms or</text>
+    <text x="676" y="130" fill="#8996a5" font-size="13">interiors on screen yet</text>
+    <text x="676" y="152" fill="#8996a5" font-size="13">no character animation,</text>
+    <text x="676" y="170" fill="#8996a5" font-size="13">no NPCs placed in a scene</text>
+    <text x="676" y="188" fill="#8996a5" font-size="13">blocked on art, not code</text>
+  </g>
+
+  <rect x="24" y="256" width="18" height="18" fill="#71a04c"/>
+  <text x="50" y="270" fill="#b0bcc7" font-size="13">built and run against the real engine</text>
+  <rect x="420" y="256" width="18" height="18" fill="none" stroke="#8996a5" stroke-width="3" stroke-dasharray="4 3"/>
+  <text x="446" y="270" fill="#8996a5" font-size="13">not started</text>
+</svg>
