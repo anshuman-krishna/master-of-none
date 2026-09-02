@@ -1,8 +1,8 @@
 extends Node2D
 # owns: the Chapter 0 home scene: two rooms (bedroom, kitchen), the hard-cut transition
-#   between them, and the specific sequence docs/STORY.md 3.3 describes: interacting with the
-#   box under the bed repairs the jeep and opens the stat screen, then carrying it into the
-#   kitchen (where both parents stand, ignoring it) plays the "nobody looks up" beat once.
+#   between them, and the story bible's age-9 jeep sequence: interacting with the box under
+#   the bed repairs the jeep and opens the stat screen, then carrying it into the kitchen
+#   (where both parents stand, ignoring it) plays the "nobody looks up" beat once.
 # does not own: the dialogue content itself (data/dialogue/ch0/), or the systems it calls into
 #   (SkillSystem via the increase_skill event, GameState for flags)
 

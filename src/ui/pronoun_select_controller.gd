@@ -1,7 +1,7 @@
 class_name PronounSelectController
 extends Control
-# owns: the new-game boy/girl choice per CLAUDE.md section 1 ("the player picks boy or girl
-#   before chapter 0"), which sets GameState.pronoun before anything else can run
+# owns: the new-game boy/girl choice ("the player picks boy or girl before chapter 0"), which
+#   sets GameState.pronoun before anything else can run
 # does not own: what happens after the choice; see pronoun_chosen
 
 signal pronoun_chosen(pronoun: GameState.Pronoun)
