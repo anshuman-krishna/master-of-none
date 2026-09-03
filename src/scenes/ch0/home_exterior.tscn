@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/ch0/home_exterior.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rooms/home_exterior.png" id="3"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/pause_menu.tscn" id="4"]
+
+[sub_resource type="RectangleShape2D" id="north_left"]
+size = Vector2(229, 4)
+[sub_resource type="RectangleShape2D" id="north_right"]
+size = Vector2(229, 4)
+[sub_resource type="RectangleShape2D" id="west_wall"]
+size = Vector2(2, 70)
+[sub_resource type="RectangleShape2D" id="east_wall"]
+size = Vector2(2, 70)
+[sub_resource type="RectangleShape2D" id="south_wall"]
+size = Vector2(480, 2)
+[sub_resource type="RectangleShape2D" id="door_area"]
+size = Vector2(22, 12)
+
+[node name="HomeExterior" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3")
+centered = false
+
+[node name="Spawn" type="Marker2D" parent="."]
+position = Vector2(240, 190)
+
+[node name="NorthWallLeft" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthWallLeft"]
+position = Vector2(114, 150)
+shape = SubResource("north_left")
+
+[node name="NorthWallRight" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthWallRight"]
+position = Vector2(365, 150)
+shape = SubResource("north_right")
+
+[node name="WestWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WestWall"]
+position = Vector2(0, 185)
+shape = SubResource("west_wall")
+
+[node name="EastWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWall"]
+position = Vector2(480, 185)
+shape = SubResource("east_wall")
+
+[node name="SouthWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWall"]
+position = Vector2(240, 220)
+shape = SubResource("south_wall")
+
+[node name="DoorTrigger" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTrigger"]
+position = Vector2(240, 150)
+shape = SubResource("door_area")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(240, 190)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="." instance=ExtResource("4")]
