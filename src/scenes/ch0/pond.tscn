@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/ch0/pond.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rooms/pond_sunset.png" id="3"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/pause_menu.tscn" id="4"]
+
+[sub_resource type="RectangleShape2D" id="north_wall"]
+size = Vector2(480, 4)
+[sub_resource type="RectangleShape2D" id="east_wall"]
+size = Vector2(2, 30)
+[sub_resource type="RectangleShape2D" id="south_wall"]
+size = Vector2(480, 2)
+[sub_resource type="RectangleShape2D" id="path_west_area"]
+size = Vector2(4, 30)
+
+[node name="Pond" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3")
+centered = false
+
+[node name="NorthWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthWall"]
+position = Vector2(240, 240)
+shape = SubResource("north_wall")
+
+[node name="EastWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWall"]
+position = Vector2(480, 255)
+shape = SubResource("east_wall")
+
+[node name="SouthWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWall"]
+position = Vector2(240, 270)
+shape = SubResource("south_wall")
+
+[node name="PathWestTrigger" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathWestTrigger"]
+position = Vector2(2, 255)
+shape = SubResource("path_west_area")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(30, 255)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="." instance=ExtResource("4")]

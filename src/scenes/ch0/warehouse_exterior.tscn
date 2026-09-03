@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/ch0/warehouse_exterior.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
@@ -13,13 +13,17 @@ size = Vector2(110, 4)
 size = Vector2(2, 14)
 [sub_resource type="RectangleShape2D" id="west_wall_south"]
 size = Vector2(2, 20)
-[sub_resource type="RectangleShape2D" id="east_wall"]
-size = Vector2(2, 64)
+[sub_resource type="RectangleShape2D" id="east_wall_north"]
+size = Vector2(2, 14)
+[sub_resource type="RectangleShape2D" id="east_wall_south"]
+size = Vector2(2, 20)
 [sub_resource type="RectangleShape2D" id="south_wall"]
 size = Vector2(480, 2)
 [sub_resource type="RectangleShape2D" id="door_area"]
 size = Vector2(40, 10)
 [sub_resource type="RectangleShape2D" id="path_west_area"]
+size = Vector2(14, 30)
+[sub_resource type="RectangleShape2D" id="path_east_area"]
 size = Vector2(14, 30)
 
 [node name="WarehouseExterior" type="Node2D"]
@@ -49,10 +53,15 @@ shape = SubResource("west_wall_north")
 position = Vector2(0, 210)
 shape = SubResource("west_wall_south")
 
-[node name="EastWall" type="StaticBody2D" parent="."]
-[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWall"]
-position = Vector2(480, 188)
-shape = SubResource("east_wall")
+[node name="EastWallNorth" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWallNorth"]
+position = Vector2(480, 163)
+shape = SubResource("east_wall_north")
+
+[node name="EastWallSouth" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWallSouth"]
+position = Vector2(480, 210)
+shape = SubResource("east_wall_south")
 
 [node name="SouthWall" type="StaticBody2D" parent="."]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWall"]
@@ -69,11 +78,19 @@ shape = SubResource("door_area")
 position = Vector2(2, 185)
 shape = SubResource("path_west_area")
 
+[node name="PathEastTrigger" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathEastTrigger"]
+position = Vector2(478, 185)
+shape = SubResource("path_east_area")
+
 [node name="SpawnFromHome" type="Marker2D" parent="."]
 position = Vector2(20, 185)
 
 [node name="SpawnFromInterior" type="Marker2D" parent="."]
 position = Vector2(260, 165)
+
+[node name="SpawnFromPond" type="Marker2D" parent="."]
+position = Vector2(460, 185)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(20, 185)
