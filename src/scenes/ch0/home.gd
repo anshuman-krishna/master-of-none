@@ -17,6 +17,7 @@ const JEEP_KITCHEN_DIALOGUE: String = "res://data/dialogue/ch0/c0_jeep_kitchen.j
 @onready var _room_transition: RoomTransitionController = $RoomTransition
 @onready var _box_interactable: Interactable = $Bedroom/BoxInteractable
 @onready var _jeep_prop: Sprite2D = $Bedroom/JeepProp
+@onready var _argument_ambience: AudioStreamPlayer2D = $Bedroom/ArgumentAmbience
 
 var _in_dialogue: bool = false
 var _transitioning: bool = false
@@ -29,6 +30,9 @@ func _ready() -> void:
 	$Bedroom/DoorTrigger.body_entered.connect(_on_bedroom_door_entered)
 	$Kitchen/DoorTrigger.body_entered.connect(_on_kitchen_door_entered)
 	_jeep_prop.visible = GameState.get_flag("jeep_repaired", false)
+	if not GameState.get_flag("ch0_intro_heard", false):
+		_argument_ambience.play()
+		GameState.set_flag("ch0_intro_heard", true)
 
 func _on_box_interacted() -> void:
 	if _in_dialogue or GameState.get_flag("jeep_repaired", false):

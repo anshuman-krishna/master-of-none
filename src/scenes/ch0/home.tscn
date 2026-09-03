@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="Script" path="res://src/scenes/ch0/home.gd" id="1"]
 [ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://src/scenes/shared/dialogue_box.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://src/scenes/shared/room_transition.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://src/scenes/shared/pause_menu.tscn" id="12"]
+[ext_resource type="AudioStream" path="res://assets/audio/sfx/ambient/argument_muffled.wav" id="13"]
 
 [sub_resource type="RectangleShape2D" id="bed_west"]
 size = Vector2(2, 128)
@@ -102,6 +103,12 @@ shape = SubResource("bed_box_area")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Bedroom/DoorTrigger"]
 position = Vector2(31, 46)
 shape = SubResource("bed_door_area")
+
+[node name="ArgumentAmbience" type="AudioStreamPlayer2D" parent="Bedroom"]
+position = Vector2(31, 40)
+stream = ExtResource("13")
+volume_db = -6.0
+bus = &"SFX"
 
 [node name="Kitchen" type="Node2D" parent="."]
 position = Vector2(300, 0)
