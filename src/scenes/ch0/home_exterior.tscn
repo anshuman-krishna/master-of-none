@@ -15,12 +15,16 @@ size = Vector2(2, 70)
 size = Vector2(2, 22)
 [sub_resource type="RectangleShape2D" id="east_wall_south"]
 size = Vector2(2, 22)
-[sub_resource type="RectangleShape2D" id="south_wall"]
-size = Vector2(480, 2)
+[sub_resource type="RectangleShape2D" id="south_wall_left"]
+size = Vector2(210, 2)
+[sub_resource type="RectangleShape2D" id="south_wall_right"]
+size = Vector2(210, 2)
 [sub_resource type="RectangleShape2D" id="door_area"]
 size = Vector2(22, 12)
 [sub_resource type="RectangleShape2D" id="path_east_area"]
 size = Vector2(14, 26)
+[sub_resource type="RectangleShape2D" id="path_south_area"]
+size = Vector2(60, 4)
 
 [node name="HomeExterior" type="Node2D"]
 script = ExtResource("1")
@@ -57,10 +61,15 @@ shape = SubResource("east_wall_north")
 position = Vector2(480, 209)
 shape = SubResource("east_wall_south")
 
-[node name="SouthWall" type="StaticBody2D" parent="."]
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWall"]
-position = Vector2(240, 220)
-shape = SubResource("south_wall")
+[node name="SouthWallLeft" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWallLeft"]
+position = Vector2(105, 220)
+shape = SubResource("south_wall_left")
+
+[node name="SouthWallRight" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWallRight"]
+position = Vector2(375, 220)
+shape = SubResource("south_wall_right")
 
 [node name="DoorTrigger" type="Area2D" parent="."]
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorTrigger"]
@@ -74,6 +83,14 @@ shape = SubResource("path_east_area")
 
 [node name="SpawnFromWarehouse" type="Marker2D" parent="."]
 position = Vector2(460, 185)
+
+[node name="PathSouthTrigger" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PathSouthTrigger"]
+position = Vector2(240, 218)
+shape = SubResource("path_south_area")
+
+[node name="SpawnFromRoad" type="Marker2D" parent="."]
+position = Vector2(240, 200)
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(240, 190)
