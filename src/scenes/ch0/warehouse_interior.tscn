@@ -1,0 +1,84 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://src/scenes/ch0/warehouse_interior.gd" id="1"]
+[ext_resource type="PackedScene" path="res://src/entities/player/player.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rooms/warehouse_interior.png" id="3"]
+[ext_resource type="PackedScene" path="res://src/scenes/shared/pause_menu.tscn" id="4"]
+
+[sub_resource type="RectangleShape2D" id="north_wall"]
+size = Vector2(224, 4)
+[sub_resource type="RectangleShape2D" id="west_wall"]
+size = Vector2(2, 160)
+[sub_resource type="RectangleShape2D" id="east_wall"]
+size = Vector2(2, 160)
+[sub_resource type="RectangleShape2D" id="south_left"]
+size = Vector2(90, 2)
+[sub_resource type="RectangleShape2D" id="south_right"]
+size = Vector2(94, 2)
+[sub_resource type="RectangleShape2D" id="exit_area"]
+size = Vector2(36, 10)
+[sub_resource type="RectangleShape2D" id="pallet_a"]
+size = Vector2(34, 22)
+[sub_resource type="RectangleShape2D" id="pallet_b"]
+size = Vector2(48, 40)
+[sub_resource type="RectangleShape2D" id="pallet_c"]
+size = Vector2(32, 38)
+
+[node name="WarehouseInterior" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("3")
+centered = false
+
+[node name="NorthWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NorthWall"]
+position = Vector2(112, 40)
+shape = SubResource("north_wall")
+
+[node name="WestWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WestWall"]
+position = Vector2(0, 120)
+shape = SubResource("west_wall")
+
+[node name="EastWall" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EastWall"]
+position = Vector2(224, 120)
+shape = SubResource("east_wall")
+
+[node name="SouthWallLeft" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWallLeft"]
+position = Vector2(45, 200)
+shape = SubResource("south_left")
+
+[node name="SouthWallRight" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SouthWallRight"]
+position = Vector2(177, 200)
+shape = SubResource("south_right")
+
+[node name="PalletA" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PalletA"]
+position = Vector2(37, 81)
+shape = SubResource("pallet_a")
+
+[node name="PalletB" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PalletB"]
+position = Vector2(174, 80)
+shape = SubResource("pallet_b")
+
+[node name="PalletC" type="StaticBody2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PalletC"]
+position = Vector2(20, 169)
+shape = SubResource("pallet_c")
+
+[node name="ExitTrigger" type="Area2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitTrigger"]
+position = Vector2(110, 197)
+shape = SubResource("exit_area")
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(110, 188)
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" parent="." instance=ExtResource("4")]
