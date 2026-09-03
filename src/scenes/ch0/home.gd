@@ -1,13 +1,17 @@
 extends Node2D
 # owns: the Chapter 0 home scene: two rooms (bedroom, kitchen), the hard-cut transition
 #   between them, and the story bible's age-9 jeep sequence: interacting with the box under
-#   the bed repairs the jeep and opens the stat screen, then carrying it into the kitchen
-#   (where both parents stand, ignoring it) plays the "nobody looks up" beat once.
-# does not own: the dialogue content itself (data/dialogue/ch0/), or the systems it calls into
-#   (SkillSystem via the increase_skill event, GameState for flags)
+#   the bed leads into the scrape-the-contacts / twist-the-wire repair minigame, then repairs
+#   the jeep and opens the stat screen, then carrying it into the kitchen (where both parents
+#   stand, ignoring it) plays the "nobody looks up" beat once.
+# does not own: the dialogue content itself (data/dialogue/ch0/), the minigame's own input
+#   handling (see JeepRepairMinigame), or the systems it calls into (SkillSystem via the
+#   increase_skill event, GameState for flags)
 
-const JEEP_REPAIR_DIALOGUE: String = "res://data/dialogue/ch0/c0_jeep_repair.json"
+const JEEP_REPAIR_INTRO_DIALOGUE: String = "res://data/dialogue/ch0/c0_jeep_repair_intro.json"
+const JEEP_REPAIR_OUTRO_DIALOGUE: String = "res://data/dialogue/ch0/c0_jeep_repair_outro.json"
 const JEEP_KITCHEN_DIALOGUE: String = "res://data/dialogue/ch0/c0_jeep_kitchen.json"
+const JEEP_REPAIR_MINIGAME_SCENE: String = "res://src/ui/jeep_repair_minigame.tscn"
 
 @onready var _bedroom: Node2D = $Bedroom
 @onready var _kitchen: Node2D = $Kitchen
@@ -37,7 +41,7 @@ func _ready() -> void:
 func _on_box_interacted() -> void:
 	if _in_dialogue or GameState.get_flag("jeep_repaired", false):
 		return
-	_start_dialogue(JEEP_REPAIR_DIALOGUE)
+	_start_dialogue(JEEP_REPAIR_INTRO_DIALOGUE)
 
 func _start_dialogue(path: String) -> void:
 	_in_dialogue = true
@@ -45,10 +49,23 @@ func _start_dialogue(path: String) -> void:
 	_dialogue_runner.start(GameState.pronoun, GameState.player_tokens)
 
 func _on_dialogue_finished(dialogue_id: String) -> void:
+	if dialogue_id == "c0_jeep_repair_intro":
+		_start_jeep_minigame()
+		return
 	_in_dialogue = false
-	if dialogue_id == "c0_jeep_repair":
+	if dialogue_id == "c0_jeep_repair_outro":
 		_jeep_prop.visible = true
 		_open_stat_screen()
+
+func _start_jeep_minigame() -> void:
+	var scene: PackedScene = load(JEEP_REPAIR_MINIGAME_SCENE)
+	var minigame: JeepRepairMinigame = scene.instantiate()
+	$UILayer.add_child(minigame)
+	minigame.repair_complete.connect(_on_jeep_minigame_complete.bind(minigame), CONNECT_ONE_SHOT)
+
+func _on_jeep_minigame_complete(minigame: JeepRepairMinigame) -> void:
+	minigame.queue_free()
+	_start_dialogue(JEEP_REPAIR_OUTRO_DIALOGUE)
 
 func _open_stat_screen() -> void:
 	var scene: PackedScene = load("res://src/scenes/shared/stat_screen.tscn")

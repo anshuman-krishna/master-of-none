@@ -1,0 +1,11 @@
+{
+  "id": "c0_jeep_repair_outro",
+  "chapter": 0,
+  "location": "home_bedroom",
+  "nodes": [
+    { "type": "think", "id": "n01", "text": "there.", "next": "n02" },
+    { "type": "event", "id": "n02", "event": "increase_skill", "args": { "trade": "repair", "amount": 1 }, "next": "n03" },
+    { "type": "set", "id": "n03", "flag": "jeep_repaired", "value": true, "next": "n04" },
+    { "type": "end", "id": "n04" }
+  ]
+}
